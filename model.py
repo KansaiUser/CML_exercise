@@ -29,24 +29,24 @@ def plot_predictions(train_data, train_labels,  test_data, test_labels,  predict
 
 
 
-# def mae(y_test, y_pred):
-#   """
-#   Calculuates mean absolute error between y_test and y_preds.
-#   """
-#   return tf.metrics.mean_absolute_error(y_test, y_pred)
+def mae(y_test, y_pred):
+  """
+  Calculuates mean absolute error between y_test and y_preds.
+  """
+  return tf.metrics.mean_absolute_error(y_test, y_pred)
   
 
-# def mse(y_test, y_pred):
-#   """
-#   Calculates mean squared error between y_test and y_preds.
-#   """
-#   return tf.metrics.mean_squared_error(y_test, y_pred)
-
-def mae(y_test, y_pred):
-    return tf.keras.metrics.mean_absolute_error(y_test, y_pred)
-
 def mse(y_test, y_pred):
-    return tf.keras.metrics.mean_squared_error(y_test, y_pred)
+  """
+  Calculates mean squared error between y_test and y_preds.
+  """
+  return tf.metrics.mean_squared_error(y_test, y_pred)
+
+# def mae(y_test, y_pred):
+#     return tf.keras.metrics.mean_absolute_error(y_test, y_pred)
+
+# def mse(y_test, y_pred):
+#     return tf.keras.metrics.mean_squared_error(y_test, y_pred)
 
 # Check Tensorflow version
 print(tf.__version__)
@@ -115,8 +115,8 @@ plot_predictions(
 
 
 # Calculate model_1 metrics
-mae_1 = np.round(float(mae(y_test, y_preds.squeeze()).numpy()), 2)
-mse_1 = np.round(float(mse(y_test, y_preds.squeeze()).numpy()), 2)
+mae_1 = np.round(float(mae(y_test.squeeze(), y_preds.squeeze()).numpy()), 2)
+mse_1 = np.round(float(mse(y_test.squeeze(), y_preds.squeeze()).numpy()), 2)
 print(f'\nMean Absolute Error = {mae_1}, Mean Squared Error = {mse_1}.')
 
 # Write metrics to file
