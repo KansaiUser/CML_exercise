@@ -3,13 +3,15 @@ on: [push]
 jobs:
   run:
     runs-on: [ubuntu-latest]
-    container: docker://dvcorg/cml-py3:latest
+    container: ubuntu:22.04
     steps:
       - uses: actions/checkout@v2
-      - name: 'Train my model'
+      - name: Install dependencies
+        run: |
+          apt-get update && apt-get install -y python3-pip
+      - name: Train my model
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Your ML workflow goes here
           pip install -r requirements.txt
           python model.py
