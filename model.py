@@ -29,19 +29,24 @@ def plot_predictions(train_data, train_labels,  test_data, test_labels,  predict
 
 
 
-def mae(y_test, y_pred):
-  """
-  Calculuates mean absolute error between y_test and y_preds.
-  """
-  return tf.metrics.mean_absolute_error(y_test, y_pred)
+# def mae(y_test, y_pred):
+#   """
+#   Calculuates mean absolute error between y_test and y_preds.
+#   """
+#   return tf.metrics.mean_absolute_error(y_test, y_pred)
   
 
-def mse(y_test, y_pred):
-  """
-  Calculates mean squared error between y_test and y_preds.
-  """
-  return tf.metrics.mean_squared_error(y_test, y_pred)
+# def mse(y_test, y_pred):
+#   """
+#   Calculates mean squared error between y_test and y_preds.
+#   """
+#   return tf.metrics.mean_squared_error(y_test, y_pred)
 
+def mae(y_test, y_pred):
+    return tf.keras.metrics.mean_absolute_error(y_test, y_pred)
+
+def mse(y_test, y_pred):
+    return tf.keras.metrics.mean_squared_error(y_test, y_pred)
 
 # Check Tensorflow version
 print(tf.__version__)
@@ -69,6 +74,14 @@ input_shape = X[0].shape
 # Take a single example of y
 output_shape = y[0].shape
 
+# Reshape data to ensure compatibility with the Dense layer
+X_train = X_train.reshape(-1, 1)  # Reshape to (25, 1)
+X_test = X_test.reshape(-1, 1)    # Reshape to (25, 1)
+
+# Similarly, reshape y_train and y_test to match the expected shape for regression
+y_train = y_train.reshape(-1, 1)
+y_test = y_test.reshape(-1, 1)
+
 
 # Set random seed
 tf.random.set_seed(1989)
@@ -90,7 +103,15 @@ model.fit(X_train, y_train, epochs=100)
 
 # Make and plot predictions for model_1
 y_preds = model.predict(X_test)
-plot_predictions(train_data=X_train, train_labels=y_train,  test_data=X_test, test_labels=y_test,  predictions=y_preds)
+# plot_predictions(train_data=X_train, train_labels=y_train,  test_data=X_test, test_labels=y_test,  predictions=y_preds)
+plot_predictions(
+    train_data=X_train.squeeze(),
+    train_labels=y_train.squeeze(),
+    test_data=X_test.squeeze(),
+    test_labels=y_test.squeeze(),
+    predictions=y_preds.squeeze()
+)
+
 
 
 # Calculate model_1 metrics
